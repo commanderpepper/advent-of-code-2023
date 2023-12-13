@@ -1,4 +1,4 @@
-package days
+package days.dayTwo
 
 import readInput
 
