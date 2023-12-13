@@ -1,6 +1,6 @@
 package days.dayTwo
 
-import readInput
+import helpers.readInput
 
 fun main(){
     val dayOneInput = readInput("Day02PartOne")
