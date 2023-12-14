@@ -15,6 +15,30 @@ fun main(){
         .sumOf { it.toInt() }
 
     println(dayOneSum)
+
+    val (dayTwoNumbers, dayTwoSymbols) = parseInput(dayTwoInput){ char ->
+        char == '*'
+    }
+    println(dayTwoNumbers)
+    println(dayTwoSymbols)
+
+    val dayTwoLocations = dayTwoNumbers.filter { numberLocation -> numberLocation.isAdjacentToAny(dayTwoSymbols)  }
+        .map { numberLocation -> numberLocation to dayTwoNumbers.filter { it  != numberLocation && it.isAdjacentToAny(dayTwoSymbols) }
+    }
+
+    val dayTwoSum = dayTwoSymbols.map { gearSymbolLocation ->
+        dayTwoLocations.map { (numberLocation, allOtherLocations) ->
+            val otherNumber = allOtherLocations.firstOrNull { it.locations.contains(gearSymbolLocation) }
+            if(numberLocation.locations.contains(gearSymbolLocation) && otherNumber != null){
+                numberLocation.toInt() * otherNumber.toInt()
+            }
+            else {
+                0
+            }
+        }
+    }.flatten().toSet().sum()
+
+    println(dayTwoSum)
 }
 
 private fun parseInput(
@@ -67,4 +91,8 @@ private class NumberLocation {
 
     fun toInt(): Int =
         number.joinToString("").toInt()
+
+    override fun toString(): String {
+        return this.toInt().toString()
+    }
 }
