@@ -12,10 +12,6 @@ fun main(){
     println(seeds)
 
     val seedToSoil = getAlmanacMap(dayOneInput, "seed-to-soil map:")
-    seedToSoil.map.forEach(::println)
-
-    println()
-
     val soilToFertilizer = getAlmanacMap(dayOneInput, "soil-to-fertilizer map:")
     val fertilizerToWater = getAlmanacMap(dayOneInput, "fertilizer-to-water map:")
     val waterToLight = getAlmanacMap(dayOneInput, "water-to-light map:")
@@ -23,7 +19,23 @@ fun main(){
     val temperatureToHumidity = getAlmanacMap(dayOneInput, "temperature-to-humidity map:")
     val humidityToLocation = getAlmanacMap(dayOneInput, "humidity-to-location map:")
 
+    val locations = seeds.map { seed ->
+        seedToSoil.findDestination(seed.seedType)
+    }.map {
+        soilToFertilizer.findDestination(it)
+    }.map {
+        fertilizerToWater.findDestination(it)
+    }.map {
+        waterToLight.findDestination(it)
+    }.map {
+        lightToTemperature.findDestination(it)
+    }.map {
+        temperatureToHumidity.findDestination(it)
+    }.map {
+        humidityToLocation.findDestination(it)
+    }
 
+    println(locations.min())
 }
 
 fun getSeeds(seedsAsString: String): List<Seed>{
@@ -41,7 +53,7 @@ fun getAlmanacMap(data: List<String>, target: String): AlmanacMap{
     val map = mutableListOf<AlmanacCategory>()
     if(index != -1){
         var i = index + 1
-        while(data[i].any { it.isDigit() }){
+        while(i < data.size && data[i].any { it.isDigit() }){
             val mapLine = data[i]
             val numbers = mapLine.split(" ")
             val source = numbers[1]
@@ -58,6 +70,16 @@ fun getAlmanacMap(data: List<String>, target: String): AlmanacMap{
 
 data class Seed(val seedType: Int)
 
-data class AlmanacMap(val map: List<AlmanacCategory>)
+data class AlmanacMap(val map: List<AlmanacCategory>) {
+    fun findDestination(source: Int): Int {
+        var destination = source
+        map.forEach {
+            if(it.source == source){
+                destination = it.destination
+            }
+        }
+        return destination
+    }
+}
 
 data class AlmanacCategory(val source: Int, val destination: Int)
