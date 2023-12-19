@@ -44,7 +44,7 @@ fun getSeeds(seedsAsString: String): List<Seed>{
         .split(" ")
         .map { it.trim() }
         .filter { it.isNotBlank() }
-        .map { Seed(it.toInt()) }
+        .map { Seed(it.toLong()) }
     return seeds
 }
 
@@ -59,27 +59,28 @@ fun getAlmanacMap(data: List<String>, target: String): AlmanacMap{
             val source = numbers[1]
             val destination = numbers[0]
             val range = numbers[2]
-            for(i in 0 until range.toInt()){
-                map.add(AlmanacCategory(source = source.toInt() + i, destination = destination.toInt() + i))
-            }
+            map.add(AlmanacCategory(source = source.toLong(), destination = destination.toLong(), range = range.toLong()))
             i++
         }
     }
     return AlmanacMap(map)
 }
 
-data class Seed(val seedType: Int)
+data class Seed(val seedType: Long)
 
 data class AlmanacMap(val map: List<AlmanacCategory>) {
-    fun findDestination(source: Int): Int {
+    fun findDestination(source: Long): Long {
         var destination = source
-        map.forEach {
-            if(it.source == source){
-                destination = it.destination
+        map.forEach { category ->
+            val lowerSource = category.source
+            val upperSource = category.source + category.range
+            if(source in lowerSource..upperSource){
+                val delta = source - lowerSource
+                destination = category.destination + delta
             }
         }
         return destination
     }
 }
 
-data class AlmanacCategory(val source: Int, val destination: Int)
+data class AlmanacCategory(val source: Long, val destination: Long, val range: Long)
