@@ -4,8 +4,8 @@ import helpers.Point2D
 import helpers.readInput
 
 fun main(){
-    val dayOneInput = readInput("Day03PartOne")
-    val dayTwoInput = readInput("Day03PartTwo")
+    val dayOneInput = readInput("Day03")
+    val dayTwoInput = readInput("Day03")
     println(dayOneInput)
     println(dayTwoInput)
 

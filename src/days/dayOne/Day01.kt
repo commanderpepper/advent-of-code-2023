@@ -13,8 +13,8 @@ fun main() {
     }
 
 
-    val dayOneInput = readInput("Day01PartOne")
-    val dayTwoInput = readInput("Day01PartTwo")
+    val dayOneInput = readInput("Day01")
+    val dayTwoInput = readInput("Day01")
     part1(dayOneInput).println()
     part2(dayTwoInput).println()
 

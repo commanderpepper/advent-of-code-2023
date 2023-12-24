@@ -3,8 +3,8 @@ package days.daySeven
 import helpers.readInput
 
 fun main() {
-    val dayOneInput = readInput("Day07PartOne")
-    val dayTwoInput = readInput("Day07PartTwo")
+    val dayOneInput = readInput("Day07")
+    val dayTwoInput = readInput("Day07")
     println(dayOneInput)
     println(dayTwoInput)
 

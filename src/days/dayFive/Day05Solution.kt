@@ -5,8 +5,8 @@ import helpers.readInput
 //Solution from https://todd.ginsberg.com/
 
 fun main(){
-    val dayOneInput = readInput("Day05PartOne")
-    val dayTwoInput = readInput("Day05PartTwo")
+    val dayOneInput = readInput("Day05")
+    val dayTwoInput = readInput("Day05")
     println(dayOneInput)
     println(dayTwoInput)
 
